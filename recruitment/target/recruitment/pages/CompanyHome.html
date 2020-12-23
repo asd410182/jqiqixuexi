@@ -8,6 +8,7 @@
     <script src="../js/jquery-3.5.1.min.js"></script>
     <script th:inline="javascript" >
         var cid= [[${cid}]];
+        console.log(cid);
     </script>
     <script src="../js/CompanyHome.js"></script>
     <script src="../js/jump.js"></script>
@@ -53,7 +54,7 @@
                 <li>
                     <div class="Job">
                         <div>
-                            <a href="./Job.html">
+                            <a href="JavaScript:jumpToResume(endResult[0].pid,cid)">
                                 <span id="JobTitle">清洁工</span>
                                 <span id="WorkPlace">[工作地点]</span>
                             </a>

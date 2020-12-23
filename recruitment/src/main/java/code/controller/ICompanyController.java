@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -43,7 +45,7 @@ public class ICompanyController {
 	@Autowired
 	private IApplyforlocationService applyforlocationService;
 
-	//主页面
+	//主页面ajax信息传递
 	@ResponseBody
 	@RequestMapping(value ="/showTheData" ,produces = "text/json; charset=utf-8")
 	public String showTheData(@RequestParam(value = "cid")Integer cid, Model model){
@@ -80,28 +82,67 @@ public class ICompanyController {
 		return "PostJob";
 	}
 
-	//	提交题目
+	//	发布职位
 	@RequestMapping("/addPosition")
-	public String addPosition(Position position){
+	public String addPosition(Position position,Model model){
 		System.out.println("保存职位");
+		SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+		Date nowDate= new Date();
+		String date= sdf.format(nowDate);
+		position.setPreleasetime(date);
 		System.out.println(position.toString());
-//		positionService.savePosition(position);
-		return "applicant_homepage";
+		positionService.savePosition(position);
+		model.addAttribute("cid",position.getPcid());
+		return "CompanyHome";
 	}
 
-
-
-
-
-
-
-
-
+	//跳转到公司信息管理页面
 	@RequestMapping(value ="/jumpToCompanyData")
-	public String jumpToOne(String cid,Model model){
+	public String jumpToCompanyData(String cid,Model model){
 		model.addAttribute("cid",cid);
-		return "company_information_manage";
+		return "EditCompanyInfo";
 	}
+
+	//更新招聘公司信息
+	@RequestMapping(value = "updateMyData")
+	public String updateMyData(Company company,Model model){
+		System.out.println(company.toString());
+		System.out.println(company.getCid());
+		companyService.updateCompany(company);
+		model.addAttribute("cid",company.getCid());
+		return "EditCompanyInfo";
+	}
+
+	//招聘公司信息管理页面
+	@ResponseBody
+	@RequestMapping(value = "companyData",produces = "text/json; charset=utf-8")
+	public String companyData(@RequestParam(value = "cid")Integer cid,Model model){
+		Company company = companyService.findByCid(cid);//得到公司信息
+		String companyData = new Gson().toJson(company);
+		return companyData;
+	}
+
+
+	//跳转到查看职位信息页面
+	@RequestMapping(value = "jumpToResume")
+	public String jumpToResume(String pid,String cid,Model model){
+		model.addAttribute("pid",pid);
+		model.addAttribute("cid",cid);
+		Integer id =Integer.valueOf(pid);
+		model.addAttribute("position",positionService.findByPid(id));
+		List<Applyforlocation> applyforlocationList =applyforlocationService.findByApid(id);
+		List<Applicant> applicantList = new ArrayList();
+		for(int i = 0; i < applyforlocationList.size(); i++){
+			applicantList.add(applicantService.findById(applyforlocationList.get(i).getAaid()));
+		}
+		model.addAttribute("position",positionService.findByPid(id));
+		model.addAttribute("applicantList",applicantList);
+		model.addAttribute("applyforlocationList",applyforlocationList);
+		return "Job";
+	}
+
+
+
 
 
 	@ResponseBody
@@ -115,14 +156,6 @@ public class ICompanyController {
 		return myplaces;
 	}
 
-	@RequestMapping(value = "jumpToResume")
-	public String jumpToResume(String pid,String cid,Model model){
-		model.addAttribute("pid",pid);
-		model.addAttribute("cid",cid);
-		Integer id =Integer.valueOf(pid);
-		model.addAttribute("position",positionService.findByPid(id));
-		return "resume";
-	}
 
 	@RequestMapping(value = "jumpToSuccess")
 	public String jumpToSucess(String pid,Model model){
@@ -130,32 +163,23 @@ public class ICompanyController {
 		return "success";
 	}
 
-	@RequestMapping(value = "updateMyData")
-	public String updateMyData(Company company,Model model){
-		companyService.updateCompany(company);
-		System.out.println(company.toString());
-		System.out.println(company.getCid());
-		model.addAttribute("cid",company.getCid());
-		return "company_information_manage";
-	}
-
-	@ResponseBody
-	@RequestMapping(value = "haveApplicant",produces = "text/json; charset=utf-8")
-	public String haveApplicant(String pid,Model model){
-		Integer id =Integer.valueOf(pid);
-		List<Applyforlocation> applyforlocations = applyforlocationService.findByApid(id);
-		model.addAttribute("position",positionService.findByPid(id));
-		List<Applicant> applicants = new ArrayList<>();
-		for(int i = 0; i < applyforlocations.size(); i++){
-			applicants.add(applicantService.findById(applyforlocations.get(i).getAaid()));
-		}
-		List list = new ArrayList();
-		list.add(applicants);
-		list.add(applyforlocations);
-		String endList = new Gson().toJson(list);
-		System.out.println(endList);
-		return endList;
-	}
+//	@ResponseBody
+//	@RequestMapping(value = "haveApplicant",produces = "text/json; charset=utf-8")
+//	public String haveApplicant(String pid,Model model){
+//		Integer id =Integer.valueOf(pid);
+//		List<Applyforlocation> applyforlocations = applyforlocationService.findByApid(id);
+//		model.addAttribute("position",positionService.findByPid(id));
+//		List<Applicant> applicants = new ArrayList<>();
+//		for(int i = 0; i < applyforlocations.size(); i++){
+//			applicants.add(applicantService.findById(applyforlocations.get(i).getAaid()));
+//		}
+//		List list = new ArrayList();
+//		list.add(applicants);
+//		list.add(applyforlocations);
+//		String endList = new Gson().toJson(list);
+//		System.out.println(endList);
+//		return endList;
+//	}
 
 
 	@ResponseBody

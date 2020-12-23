@@ -1,8 +1,9 @@
+var endResult;
 window.onload = function(){
     let EditInfo = document.querySelector("#left");
     EditInfo.onclick = function(){
-        window.location.href = "../html/EditCompanyInfo.html";
-    }
+        window.location.href="/company/jumpToCompanyData?cid="+cid;
+    };
 
     let radios = document.querySelectorAll("input[type='radio']");
     for (const val of radios) {
@@ -17,6 +18,7 @@ window.onload = function(){
             "cid":cid
         },
         success: function (result) {
+            endResult = result[5];
             console.log(result);
             console.log(result[0]);//公司信息
             console.log(result[1]);//发布职位数量
@@ -30,7 +32,7 @@ window.onload = function(){
             alert("服务器跑到火星去了，请稍后再试！");
         }
     });
-}
+};
 function select(o){
     let id = o.getAttribute("for");
     //这里要拿到选中的单选框的id

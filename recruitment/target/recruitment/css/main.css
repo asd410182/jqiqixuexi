@@ -1,12 +1,13 @@
 @font-face {
     font-family: 'iconfont';  /* project id 2226331 */
-    src: url('//at.alicdn.com/t/font_2226331_g5zuf4ntpei.eot');
-    src: url('//at.alicdn.com/t/font_2226331_g5zuf4ntpei.eot?#iefix') format('embedded-opentype'),
-    url('//at.alicdn.com/t/font_2226331_g5zuf4ntpei.woff2') format('woff2'),
-    url('//at.alicdn.com/t/font_2226331_g5zuf4ntpei.woff') format('woff'),
-    url('//at.alicdn.com/t/font_2226331_g5zuf4ntpei.ttf') format('truetype'),
-    url('//at.alicdn.com/t/font_2226331_g5zuf4ntpei.svg#iconfont') format('svg');
+    src: url('//at.alicdn.com/t/font_2226331_nokchjd4x4e.eot');
+    src: url('//at.alicdn.com/t/font_2226331_nokchjd4x4e.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_2226331_nokchjd4x4e.woff2') format('woff2'),
+    url('//at.alicdn.com/t/font_2226331_nokchjd4x4e.woff') format('woff'),
+    url('//at.alicdn.com/t/font_2226331_nokchjd4x4e.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_2226331_nokchjd4x4e.svg#iconfont') format('svg');
 }
+
 
 .iconfont{
     font-family:"iconfont" !important;
@@ -21,4 +22,5 @@
 *{
     margin: 0px;
     padding: 0px;
+    font-family: Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial, sans-serif;
 }

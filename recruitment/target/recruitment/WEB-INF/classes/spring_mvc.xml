@@ -32,10 +32,10 @@
     <!-- 模板解析器 -->
     <bean id="templateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
         <constructor-arg ref="servletContext"/>
+        <property name="cacheable" value="false"/>
         <property name="prefix" value="/pages/"/>
         <property name="suffix" value=".html"/>
         <property name="templateMode" value="HTML5"/>
-        <property name="cacheable" value="false"/>
         <property name="characterEncoding" value="UTF-8"/>
     </bean>
     <!--<mvc:resources mapping="/static/" location="/static/"></mvc:resources>-->
@@ -45,3 +45,5 @@
     <!--开启SpringMVC框架注解的支持-->
     <mvc:annotation-driven/>
 </beans>
+
+

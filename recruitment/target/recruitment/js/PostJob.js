@@ -1,5 +1,4 @@
-let flag = "TurnOn";
-
+let pisopen = "TurnOn";
 (function setDefault(){
     var prov = document.querySelector("#province");
     let len = provice.length;
@@ -10,17 +9,17 @@ let flag = "TurnOn";
         prov.appendChild(provOpt);
     }
 
-    let checkedRadio = document.getElementById(flag);
+    let checkedRadio = document.getElementById(pisopen);
     checkedRadio.parentElement.style.borderColor = "#00c2b3";
 })();
 
 
 function select(o){
     let id = o.getAttribute("for");
-    if(id != flag){
-        document.querySelector(`#${flag}`).parentElement.style.borderColor = "#9fa3b0";
+    if(id != pisopen){
+        document.querySelector(`#${pisopen}`).parentElement.style.borderColor = "#9fa3b0";
         document.querySelector(`#${id}`).parentElement.style.borderColor = "#00c2b3";
-        flag = id;
+        pisopen = id;
     }
 }
 
